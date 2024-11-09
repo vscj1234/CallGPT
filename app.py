@@ -14,6 +14,10 @@ import json
 from dotenv import load_dotenv
 import sounddevice as sd
 import numpy as np
+from typing import Optional
+
+
+
 
 
 # Initialize FastAPI app
@@ -45,7 +49,7 @@ class BaseAgent:
         self.knowledge_base = read_data_files()
         self.chat_history = []
 
-    def speech_to_text(self, timeout=5) -> str | None:
+    def speech_to_text(self, timeout=5) -> Optional[str]:
         try:
             # Use sounddevice to record audio
             print("Listening...")
