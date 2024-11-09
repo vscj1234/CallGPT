@@ -12,6 +12,8 @@ from fastapi.staticfiles import StaticFiles
 import uvicorn
 import json
 from dotenv import load_dotenv
+import sounddevice as sd
+import numpy as np
 
 
 # Initialize FastAPI app
@@ -45,13 +47,22 @@ class BaseAgent:
 
     def speech_to_text(self, timeout=5) -> str | None:
         try:
-            with sr.Microphone() as source:
-                print("Listening...")
-                audio = self.recognizer.listen(source, timeout=timeout, phrase_time_limit=10)
-                text = self.recognizer.recognize_google(audio)
-                print(f"Recognized text: {text}")
-                return text
-        except (sr.WaitTimeoutError, sr.UnknownValueError, sr.RequestError) as e:
+            # Use sounddevice to record audio
+            print("Listening...")
+            fs = 16000  # Sampling rate
+            duration = timeout  # Duration for listening
+            audio = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='int16')
+            sd.wait()  # Wait for the recording to complete
+            
+            # Convert the recorded audio to AudioData format for recognizer
+            audio_np = np.squeeze(audio)  # Remove unnecessary dimension
+            audio_data = sr.AudioData(audio_np.tobytes(), fs, 2)
+            
+            # Recognize the speech
+            text = self.recognizer.recognize_google(audio_data)
+            print(f"Recognized text: {text}")
+            return text
+        except (sr.UnknownValueError, sr.RequestError) as e:
             print(f"Speech recognition error: {e}")
             return None
         except Exception as e:
