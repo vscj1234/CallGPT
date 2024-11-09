@@ -1,3 +1,4 @@
+portaudio19dev
 sounddevice 
 numpy
 speechRecognition 
