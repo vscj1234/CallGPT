@@ -4,9 +4,10 @@ FROM python:3.8-slim
 # Set the working directory inside the container
 WORKDIR /app
 
-# Install OS dependencies including PortAudio
+# Install OS dependencies including PortAudio and eSpeak
 RUN apt-get update && apt-get install -y \
     portaudio19-dev \
+    espeak \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the requirements.txt file into the container at /app
