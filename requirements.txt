@@ -1,3 +1,5 @@
+sounddevice 
+numpy
 speechRecognition 
 openai
 pyttsx3
