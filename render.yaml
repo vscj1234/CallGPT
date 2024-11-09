@@ -1,9 +1,12 @@
 services:
   - type: web
-    name: fastapi-app
+    name: callgpt
     env: python
-    buildCommand: curl -sSL https://install.python-poetry.org | python3 - && poetry install
-    startCommand: poetry run uvicorn main:app --host 0.0.0.0 --port $PORT
+    buildCommand: |
+      # Install system dependencies
+      apt-get update && apt-get install -y portaudio19-dev python3-pyaudio
+      pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.10
