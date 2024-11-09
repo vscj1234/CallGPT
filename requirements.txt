@@ -1,0 +1,12 @@
+speechRecognition 
+openai
+pyttsx3
+fastapi
+uvicorn
+bs4
+websockets
+PyAudio
+setuptools
+Wheel
+requests
+python-dotenv
