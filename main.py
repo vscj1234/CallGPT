@@ -54,7 +54,7 @@ async def process_openai_response(websocket: WebSocket, message: str):
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are Bluu, an assistant from ScalebuildAI. You help people find the best products. Scalebuild is a software company."},
+                {"role": "system", "content": "You are a helpful assistant with additional knowledge."},
                 {"role": "user", "content": message}
             ],
             temperature=0.7,
